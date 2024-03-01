@@ -17,18 +17,20 @@ def reverse_string_client():
         try:
             n_port = int(sys.argv[2])
             # sys.argv[2] is the third command line argument
-        except TypeError:
+        except ValueError:
             print("An integer was not correctly inputted for the n_port, please input an integer")
             return 0
-        if (n_port < 1024):
-            print("You have entered a port number for the TCP handshake which is smaller than 1024. \
-                  Port numbers smaller than 1024 are already reserved")
-            return 0
-        elif (n_port > 65535):
-            print("Port numbers larger than 65535 do not exist")
-            return 0
-        else:
-            break
+        except:
+            print("Some other error has occured, restart the server")
+        break
+        
+    if (n_port < 1024):
+        print("You have entered a port number for the TCP handshake which is smaller than 1024. \
+              Port numbers smaller than 1024 are already reserved")
+        return 0
+    elif (n_port > 65535):
+        print("Port numbers larger than 65535 do not exist")
+        return 0
 
     # Below while loop reads the req_code inputted into the command line
     while True:
@@ -39,12 +41,14 @@ def reverse_string_client():
             # Need to check that an integer was actually inputted into the command line before
             # before we assign it as the request code
 
-        except TypeError:
-            print("An integer was not correctly inputted for the n_port, please input an integer")
-            return 0
         except ValueError:
+            print("An integer was not correctly inputted for the req_code, please input an integer")
+            return 0
+        except MemoryError:
             print("Value inputted was too large or too small and caused an integer overflow")
             return 0
+        except:
+            print("Some other error has occured")
         req_code_client = sys.argv[3]
         break
 
@@ -92,4 +96,6 @@ def reverse_string_client():
     
     # Close the UDP socket
     client_udp_socket.close()
+
+reverse_string_client()
 
